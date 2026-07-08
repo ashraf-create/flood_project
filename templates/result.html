@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom">
+                <div class="card-custom-header text-center py-4">
+                    <span class="feature-badge mb-2"><i class="fa-solid fa-square-poll-horizontal me-1"></i> Analysis Complete</span>
+                    <h2 class="fw-bold text-primary mb-0">Risk Evaluation Result</h2>
+                    <p class="text-muted small mt-2 mb-0">Processed via {{ model_type }} Classifier</p>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    
+                    {% if prediction == 1 %}
+                    <!-- HIGH FLOOD RISK CARD (RED) -->
+                    <div class="risk-card risk-high text-center">
+                        <div class="risk-icon-wrapper">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <h2 class="fw-bold text-danger mb-2">🚨 High Flood Risk Detected</h2>
+                        <p class="lead text-danger-emphasis mb-3">
+                            The weather metrics reflect heavy monsoonal patterns and high soil/river saturations. Precautionary measures are highly recommended.
+                        </p>
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="d-flex justify-content-between mb-1 small fw-bold text-dark">
+                                    <span>Danger index probability:</span>
+                                    <span>{{ probability }}%</span>
+                                </div>
+                                <div class="probability-bar-container">
+                                    <div class="probability-bar bg-danger" style="width: {{ probability }}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <!-- LOW FLOOD RISK CARD (GREEN) -->
+                    <div class="risk-card risk-low text-center">
+                        <div class="risk-icon-wrapper">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <h2 class="fw-bold text-success mb-2">✅ Low Flood Risk</h2>
+                        <p class="lead text-success-emphasis mb-3">
+                            Meteorological variables remain within ordinary levels. No immediate floods are predicted at this time.
+                        </p>
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="d-flex justify-content-between mb-1 small fw-bold text-dark">
+                                    <span>Flood danger probability:</span>
+                                    <span>{{ probability }}%</span>
+                                </div>
+                                <div class="probability-bar-container">
+                                    <div class="probability-bar bg-success" style="width: {{ probability }}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Meteorological Values Table -->
+                    <div class="mt-5">
+                        <h4 class="fw-bold text-primary mb-3"><i class="fa-solid fa-table me-2"></i>Submitted Weather Profile</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle text-center small">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Attribute</th>
+                                        <th>Reported Value</th>
+                                        <th>Attribute</th>
+                                        <th>Reported Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold text-secondary text-start">Annual Rainfall</td>
+                                        <td>{{ inputs.Annual_Rainfall }} mm</td>
+                                        <td class="fw-bold text-secondary text-start">Humidity</td>
+                                        <td>{{ inputs.Humidity }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-secondary text-start">Monsoon Intensity</td>
+                                        <td>{{ inputs.Monsoon_Intensity }}</td>
+                                        <td class="fw-bold text-secondary text-start">Temperature</td>
+                                        <td>{{ inputs.Temperature }} °C</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold text-secondary text-start">Cloud Coverage</td>
+                                        <td>{{ inputs.Cloud_Coverage }}%</td>
+                                        <td class="fw-bold text-secondary text-start">River Discharge</td>
+                                        <td>{{ inputs.River_Discharge }} m³/s</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Safety Guidelines -->
+                    <div class="mt-4 bg-light p-4 rounded-4 border">
+                        <h5 class="fw-bold text-primary mb-3">
+                            <i class="fa-solid fa-shield-halved me-2"></i>
+                            {% if prediction == 1 %}Emergency Action Recommendations{% else %}Suggested Safety Actions{% endif %}
+                        </h5>
+                        <ul class="list-unstyled recommendations-list mb-0">
+                            {% for rec in recommendations %}
+                            <li>{{ rec }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Actions Buttons -->
+                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mt-5">
+                        <a href="{{ url_for('predict') }}" class="btn btn-secondary-custom">
+                            <i class="fa-solid fa-rotate-left me-1"></i> Predict Again
+                        </a>
+                        
+                        <!-- jsPDF Trigger Button -->
+                        <button id="download-pdf-btn" class="btn btn-primary-custom"
+                                data-prediction="{{ prediction }}"
+                                data-probability="{{ probability }}"
+                                data-model="{{ model_type }}"
+                                data-annual="{{ inputs.Annual_Rainfall }}"
+                                data-monsoon="{{ inputs.Monsoon_Intensity }}"
+                                data-cloud="{{ inputs.Cloud_Coverage }}"
+                                data-humidity="{{ inputs.Humidity }}"
+                                data-temp="{{ inputs.Temperature }}"
+                                data-discharge="{{ inputs.River_Discharge }}">
+                            <i class="fa-solid fa-file-pdf me-1"></i> Download PDF Report
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

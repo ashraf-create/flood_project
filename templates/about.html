@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Main Info -->
+        <div class="col-lg-7">
+            <h2 class="fw-bold text-primary mb-3">Project Overview: Rising Waters</h2>
+            <p class="lead text-muted">
+                An end-to-end Machine Learning web application designed to predict flood probabilities using meteorological and meteorological observations.
+            </p>
+            
+            <h4 class="fw-bold text-primary mt-4 mb-3"><i class="fa-solid fa-graduation-cap me-2"></i>Academic & Internship Objective</h4>
+            <p class="text-muted small">
+                This project represents a complete, production-ready machine learning workspace suitable for an internship final review. It spans the entire data science cycle: ingesting records, preprocessing and cleaning data (handling nulls, dropping duplicates, removing outliers via the Interquartile Range method), scaling features, training 4 classifiers, evaluating cross-metrics (F1, Accuracy, Precision, Recall, ROC-AUC), saving model weight bins, and exposing them through a Flask application.
+            </p>
+            
+            <h4 class="fw-bold text-primary mt-4 mb-3"><i class="fa-solid fa-list-check me-2"></i>Weather Feature Schema</h4>
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered table-striped small">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Feature Column</th>
+                            <th>Description</th>
+                            <th>Units / Scale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-monospace fw-bold">Annual_Rainfall</td>
+                            <td>Cumulative regional rainfall over 12 months</td>
+                            <td>Millimeters (mm)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-monospace fw-bold">Monsoon_Intensity</td>
+                            <td>Index of wet season monsoonal wind and storm strength</td>
+                            <td>Scale (0 - 10)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-monospace fw-bold">Cloud_Coverage</td>
+                            <td>Atmospheric cloud saturation percentage</td>
+                            <td>Percent (0% - 100%)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-monospace fw-bold">Humidity</td>
+                            <td>Atmospheric relative moisture saturation</td>
+                            <td>Percent (0% - 100%)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-monospace fw-bold">Temperature</td>
+                            <td>Average ambient air temperature</td>
+                            <td>Degrees Celsius (°C)</td>
+                        </tr>
+                        <tr>
+                            <td class="font-monospace fw-bold">River_Discharge</td>
+                            <td>Volume rate of river water flow flowing past a node</td>
+                            <td>m³/second</td>
+                        </tr>
+                        <tr>
+                            <td class="font-monospace fw-bold">Flood</td>
+                            <td>Target classification variable (1 = Flood, 0 = Safe)</td>
+                            <td>Binary Class</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Sidebar Stack -->
+        <div class="col-lg-5">
+            <div class="card card-custom mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-primary mb-3"><i class="fa-solid fa-layer-group me-2"></i>Technology Stack</h5>
+                    <ul class="list-unstyled mb-0 text-muted small">
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>Backend Core:</strong> Python 3.10+ & Flask</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>Data processing:</strong> Pandas & NumPy</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>ML Modeling:</strong> Scikit-Learn & XGBoost</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>Plots & Heatmaps:</strong> Matplotlib & Seaborn</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>Serialization:</strong> Joblib (model & scaler bin)</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>Frontend View:</strong> HTML5, CSS3, Bootstrap 5, JS</li>
+                        <li class="mb-2"><i class="fa-solid fa-circle text-info me-2" style="font-size: 0.5rem;"></i><strong>Server & Cloud:</strong> Gunicorn (IBM Cloud ready)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card card-custom">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-primary mb-3"><i class="fa-solid fa-brain me-2"></i>ML Algorithms Compared</h5>
+                    <div class="accordion accordion-flush" id="algoAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-bold text-dark small" type="button" data-bs-toggle="collapse" data-bs-target="#flush-dt">
+                                    Decision Tree Classifier
+                                </button>
+                            </h2>
+                            <div id="flush-dt" class="accordion-collapse collapse" data-bs-parent="#algoAccordion">
+                                <div class="accordion-body small text-muted">
+                                    Creates a tree-like branching flowchart of logical decision nodes to classify safety vs warning bounds based on optimal feature thresholds.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-bold text-dark small" type="button" data-bs-toggle="collapse" data-bs-target="#flush-rf">
+                                    Random Forest Classifier
+                                </button>
+                            </h2>
+                            <div id="flush-rf" class="accordion-collapse collapse" data-bs-parent="#algoAccordion">
+                                <div class="accordion-body small text-muted">
+                                    An ensemble of multiple decision trees that votes on final classifications. Offers superior generalization and lowers overfitting risks.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-bold text-dark small" type="button" data-bs-toggle="collapse" data-bs-target="#flush-knn">
+                                    K-Nearest Neighbors (KNN)
+                                </button>
+                            </h2>
+                            <div id="flush-knn" class="accordion-collapse collapse" data-bs-parent="#algoAccordion">
+                                <div class="accordion-body small text-muted">
+                                    A distance-based classifier that maps inputs into features space, evaluating proximity to neighbors to resolve whether similar conditions led to historical floods.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-bold text-dark small" type="button" data-bs-toggle="collapse" data-bs-target="#flush-xgb">
+                                    XGBoost Classifier
+                                </button>
+                            </h2>
+                            <div id="flush-xgb" class="accordion-collapse collapse" data-bs-parent="#algoAccordion">
+                                <div class="accordion-body small text-muted">
+                                    Extreme Gradient Boosting. Iteratively builds trees to correct errors made by previous estimators. Heavily utilized in top data science competitions.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diagnostic Visualizations Dashboard -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <hr class="mb-5">
+            <h3 class="fw-bold text-primary mb-2 text-center">Exploratory Data Analysis & Analytics Dashboard</h3>
+            <p class="text-muted text-center mx-auto mb-4" style="max-width: 600px;">
+                Visual analytics and verification charts generated by the training pipeline to validate training metrics.
+            </p>
+            
+            {% if metrics_img_exists %}
+            <!-- Tabs for Plots -->
+            <div class="card card-custom">
+                <div class="card-header bg-white border-bottom">
+                    <ul class="nav nav-tabs card-header-tabs" id="plotTabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active fw-bold small" id="comparison-tab" data-bs-toggle="tab" data-bs-target="#comparison" type="button" role="tab">
+                                <i class="fa-solid fa-chart-column me-1"></i> Model Comparison
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold small" id="heatmap-tab" data-bs-toggle="tab" data-bs-target="#heatmap" type="button" role="tab">
+                                <i class="fa-solid fa-map-location-dot me-1"></i> Correlation Heatmap
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold small" id="dist-tab" data-bs-toggle="tab" data-bs-target="#dist" type="button" role="tab">
+                                <i class="fa-solid fa-chart-pie me-1"></i> Target Distribution
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold small" id="importance-tab" data-bs-toggle="tab" data-bs-target="#importance" type="button" role="tab">
+                                <i class="fa-solid fa-arrow-down-wide-short me-1"></i> Feature Importance
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold small" id="cm-tab" data-bs-toggle="tab" data-bs-target="#cm" type="button" role="tab">
+                                <i class="fa-solid fa-table-cells me-1"></i> Confusion Matrix
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link fw-bold small" id="roc-tab" data-bs-toggle="tab" data-bs-target="#roc" type="button" role="tab">
+                                <i class="fa-solid fa-chart-line me-1"></i> ROC Curves
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body p-4">
+                    <div class="tab-content" id="plotTabsContent">
+                        <!-- Plot 1: Model Comparison -->
+                        <div class="tab-pane fade show active text-center" id="comparison" role="tabpanel">
+                            <img src="{{ url_for('static', filename='images/model_comparison.png') }}" class="img-fluid rounded border shadow-sm" alt="Model Comparison" style="max-height: 480px;">
+                            <p class="small text-muted mt-3 mb-0">Compares Accuracy, Precision, Recall, and F1 Score for all 4 trained classifiers.</p>
+                        </div>
+                        <!-- Plot 2: Correlation Heatmap -->
+                        <div class="tab-pane fade text-center" id="heatmap" role="tabpanel">
+                            <img src="{{ url_for('static', filename='images/correlation_heatmap.png') }}" class="img-fluid rounded border shadow-sm" alt="Correlation Heatmap" style="max-height: 480px;">
+                            <p class="small text-muted mt-3 mb-0">Highlights relationships between the meteorological features and the Flood status.</p>
+                        </div>
+                        <!-- Plot 3: Target Distribution -->
+                        <div class="tab-pane fade text-center" id="dist" role="tabpanel">
+                            <img src="{{ url_for('static', filename='images/flood_distribution.png') }}" class="img-fluid rounded border shadow-sm" alt="Target Distribution" style="max-height: 480px;">
+                            <p class="small text-muted mt-3 mb-0">Visualizes balance of Flood classes (No Flood vs Flood) in the source dataset.</p>
+                        </div>
+                        <!-- Plot 4: Feature Importance -->
+                        <div class="tab-pane fade text-center" id="importance" role="tabpanel">
+                            <img src="{{ url_for('static', filename='images/feature_importance.png') }}" class="img-fluid rounded border shadow-sm" alt="Feature Importance" style="max-height: 480px;">
+                            <p class="small text-muted mt-3 mb-0">Ranks which environmental metrics most heavily influence classification weights.</p>
+                        </div>
+                        <!-- Plot 5: Confusion Matrix -->
+                        <div class="tab-pane fade text-center" id="cm" role="tabpanel">
+                            <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" class="img-fluid rounded border shadow-sm" alt="Confusion Matrix" style="max-height: 480px;">
+                            <p class="small text-muted mt-3 mb-0">Depicts true positives, true negatives, false positives, and false negatives of the best model.</p>
+                        </div>
+                        <!-- Plot 6: ROC Curves -->
+                        <div class="tab-pane fade text-center" id="roc" role="tabpanel">
+                            <img src="{{ url_for('static', filename='images/roc_curve.png') }}" class="img-fluid rounded border shadow-sm" alt="ROC Curves" style="max-height: 480px;">
+                            <p class="small text-muted mt-3 mb-0">Displays Receiver Operating Characteristic (ROC) plots measuring True Positive vs False Positive rates.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- Mock visual placeholder when model hasn't been trained -->
+            <div class="card card-custom border-dashed py-5 text-center">
+                <div class="card-body">
+                    <i class="fa-solid fa-chart-line text-muted mb-3" style="font-size: 4rem;"></i>
+                    <h5 class="fw-bold text-secondary">Analytics Dashboard Offline</h5>
+                    <p class="text-muted small mx-auto mb-3" style="max-width: 450px;">
+                        Graphs of model performances, feature weights, confusion matrices, and ROC plots will generate automatically and show up here once you run the model training script.
+                    </p>
+                    <div class="bg-dark text-light p-3 rounded font-monospace small d-inline-block text-start mb-0">
+                        python train_model.py
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

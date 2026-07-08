@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom">
+                <div class="card-custom-header text-center py-4">
+                    <span class="feature-badge mb-2"><i class="fa-solid fa-calculator me-1"></i> Calculation Module</span>
+                    <h2 class="fw-bold text-primary mb-0">Evaluate Flood Risk Probability</h2>
+                    <p class="text-muted small mt-2 mb-0">Provide regional weather parameters to calculate flood danger index.</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    
+                    {% if not model_trained %}
+                    <!-- System Setup Warning Banner -->
+                    <div class="alert alert-danger alert-custom mb-4 p-4" role="alert">
+                        <div class="d-flex">
+                            <i class="fa-solid fa-circle-xmark text-danger fs-3 me-3"></i>
+                            <div>
+                                <h5 class="fw-bold mb-1">Prediction Mode Offline</h5>
+                                <p class="small mb-2 text-danger-emphasis">
+                                    The machine learning prediction files (`models/flood_model.pkl` and `models/scaler.pkl`) have not been created yet. The input form has been locked.
+                                </p>
+                                <span class="small fw-bold text-dark d-block mb-1">How to enable prediction:</span>
+                                <ol class="small text-dark mb-0 ps-3">
+                                    <li>Place your historical dataset `flood.csv` into the `dataset/` directory.</li>
+                                    <li>Run the training script in your shell: <code>python train_model.py</code></li>
+                                    <li>Restart or refresh this page.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Input Form -->
+                    <form id="predict-form" action="{{ url_for('predict') }}" method="POST" {% if not model_trained %}style="opacity: 0.55; pointer-events: none;"{% endif %}>
+                        
+                        <div class="row g-4">
+                            <!-- Field 1: Annual Rainfall -->
+                            <div class="col-md-6">
+                                <label for="Annual_Rainfall" class="form-label">Annual Rainfall</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-group-text-custom"><i class="fa-solid fa-cloud-showers-heavy"></i></span>
+                                    <input type="number" step="any" class="form-control form-control-custom {% if errors and errors.Annual_Rainfall %}is-invalid{% endif %}" 
+                                           id="Annual_Rainfall" name="Annual_Rainfall" placeholder="e.g., 2500" 
+                                           value="{{ form_data.Annual_Rainfall or '' }}" required {% if not model_trained %}disabled{% endif %}>
+                                    {% if errors and errors.Annual_Rainfall %}
+                                        <div class="invalid-feedback">{{ errors.Annual_Rainfall }}</div>
+                                    {% else %}
+                                        <div class="invalid-feedback">Annual Rainfall is required.</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-text small text-muted">Total regional annual rainfall in millimeters (mm).</div>
+                            </div>
+                            
+                            <!-- Field 2: Monsoon Intensity -->
+                            <div class="col-md-6">
+                                <label for="Monsoon_Intensity" class="form-label">Monsoon Intensity</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-group-text-custom"><i class="fa-solid fa-wind"></i></span>
+                                    <input type="number" step="any" class="form-control form-control-custom {% if errors and errors.Monsoon_Intensity %}is-invalid{% endif %}" 
+                                           id="Monsoon_Intensity" name="Monsoon_Intensity" placeholder="e.g., 6.2" 
+                                           value="{{ form_data.Monsoon_Intensity or '' }}" required {% if not model_trained %}disabled{% endif %}>
+                                    {% if errors and errors.Monsoon_Intensity %}
+                                        <div class="invalid-feedback">{{ errors.Monsoon_Intensity }}</div>
+                                    {% else %}
+                                        <div class="invalid-feedback">Monsoon Intensity is required.</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-text small text-muted">Monsoonal strength index or score (normally 0 to 10).</div>
+                            </div>
+                            
+                            <!-- Field 3: Cloud Coverage -->
+                            <div class="col-md-6">
+                                <label for="Cloud_Coverage" class="form-label">Cloud Coverage (%)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-group-text-custom"><i class="fa-solid fa-cloud"></i></span>
+                                    <input type="number" step="any" class="form-control form-control-custom {% if errors and errors.Cloud_Coverage %}is-invalid{% endif %}" 
+                                           id="Cloud_Coverage" name="Cloud_Coverage" placeholder="e.g., 75" min="0" max="100" 
+                                           value="{{ form_data.Cloud_Coverage or '' }}" required {% if not model_trained %}disabled{% endif %}>
+                                    {% if errors and errors.Cloud_Coverage %}
+                                        <div class="invalid-feedback">{{ errors.Cloud_Coverage }}</div>
+                                    {% else %}
+                                        <div class="invalid-feedback">Cloud Coverage is required (0-100%).</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-text small text-muted">Percentage of cloud cover (0 to 100%).</div>
+                            </div>
+                            
+                            <!-- Field 4: Humidity -->
+                            <div class="col-md-6">
+                                <label for="Humidity" class="form-label">Humidity (%)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-group-text-custom"><i class="fa-solid fa-droplet"></i></span>
+                                    <input type="number" step="any" class="form-control form-control-custom {% if errors and errors.Humidity %}is-invalid{% endif %}" 
+                                           id="Humidity" name="Humidity" placeholder="e.g., 85" min="0" max="100" 
+                                           value="{{ form_data.Humidity or '' }}" required {% if not model_trained %}disabled{% endif %}>
+                                    {% if errors and errors.Humidity %}
+                                        <div class="invalid-feedback">{{ errors.Humidity }}</div>
+                                    {% else %}
+                                        <div class="invalid-feedback">Humidity is required (0-100%).</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-text small text-muted">Relative atmospheric humidity (0 to 100%).</div>
+                            </div>
+                            
+                            <!-- Field 5: Temperature -->
+                            <div class="col-md-6">
+                                <label for="Temperature" class="form-label">Temperature (°C)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-group-text-custom"><i class="fa-solid fa-temperature-half"></i></span>
+                                    <input type="number" step="any" class="form-control form-control-custom {% if errors and errors.Temperature %}is-invalid{% endif %}" 
+                                           id="Temperature" name="Temperature" placeholder="e.g., 28.5" 
+                                           value="{{ form_data.Temperature or '' }}" required {% if not model_trained %}disabled{% endif %}>
+                                    {% if errors and errors.Temperature %}
+                                        <div class="invalid-feedback">{{ errors.Temperature }}</div>
+                                    {% else %}
+                                        <div class="invalid-feedback">Temperature is required.</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-text small text-muted">Average ambient regional temperature.</div>
+                            </div>
+                            
+                            <!-- Field 6: River Discharge -->
+                            <div class="col-md-6">
+                                <label for="River_Discharge" class="form-label">River Discharge</label>
+                                <div class="input-group">
+                                    <span class="input-group-text input-group-text-custom"><i class="fa-solid fa-water"></i></span>
+                                    <input type="number" step="any" class="form-control form-control-custom {% if errors and errors.River_Discharge %}is-invalid{% endif %}" 
+                                           id="River_Discharge" name="River_Discharge" placeholder="e.g., 340" 
+                                           value="{{ form_data.River_Discharge or '' }}" required {% if not model_trained %}disabled{% endif %}>
+                                    {% if errors and errors.River_Discharge %}
+                                        <div class="invalid-feedback">{{ errors.River_Discharge }}</div>
+                                    {% else %}
+                                        <div class="invalid-feedback">River Discharge is required.</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-text small text-muted">Volume rate of river water flow in m³/s.</div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons Group -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                            <a href="{{ url_for('home') }}" class="btn btn-secondary-custom mb-2 mb-md-0">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary-custom" {% if not model_trained %}disabled{% endif %}>
+                                <i class="fa-solid fa-magnifying-glass-chart me-1"></i> Run Risk Prediction
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

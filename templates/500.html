@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5 py-5">
+    <div class="error-container bg-white border rounded-4 p-5 shadow-sm text-center">
+        <div class="error-code text-danger mb-2">500</div>
+        <h3 class="fw-bold text-primary mb-3">Internal Server Error</h3>
+        <p class="text-muted small mb-4">
+            The server encountered an internal error or misconfiguration and was unable to complete your request. This often occurs if model configuration files are missing or incorrect.
+        </p>
+        <div class="d-flex justify-content-center gap-2">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary-custom btn-sm">
+                <i class="fa-solid fa-house me-1"></i> Home
+            </a>
+            <a href="{{ url_for('predict') }}" class="btn btn-primary-custom btn-sm">
+                <i class="fa-solid fa-rotate me-1"></i> Retry Prediction
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

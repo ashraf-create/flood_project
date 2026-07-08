@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card card-custom">
+        <div class="card-custom-header d-flex flex-column flex-md-row justify-content-between align-items-center py-4 px-4 px-md-5">
+            <div class="mb-3 mb-md-0 text-center text-md-start">
+                <span class="feature-badge mb-2"><i class="fa-solid fa-history me-1"></i> Data Log</span>
+                <h2 class="fw-bold text-primary mb-0">Prediction Logs</h2>
+                <p class="text-muted small mb-0">Archived weather scenarios and ML outcome results.</p>
+            </div>
+            
+            {% if records %}
+            <!-- Action buttons for history log -->
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('download_history') }}" class="btn btn-secondary-custom btn-sm py-2">
+                    <i class="fa-solid fa-file-csv me-1"></i> Export to CSV
+                </a>
+                <a href="{{ url_for('clear_history') }}" class="btn btn-danger btn-sm py-2 px-3 rounded-3" 
+                   onclick="return confirm('Are you sure you want to permanently clear the prediction history?');">
+                    <i class="fa-solid fa-trash-can me-1"></i> Clear Logs
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="card-body p-4 p-md-5">
+            {% if records %}
+            <!-- Responsive log table -->
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle text-center table-custom small">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Annual Rain (mm)</th>
+                            <th>Monsoon Intensity</th>
+                            <th>Cloud Cover (%)</th>
+                            <th>Humidity (%)</th>
+                            <th>Temp (°C)</th>
+                            <th>River Discharge (m³/s)</th>
+                            <th>Probability</th>
+                            <th>Classification Outcome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td class="font-monospace text-muted">{{ record.Timestamp }}</td>
+                            <td>{{ record.Annual_Rainfall }}</td>
+                            <td>{{ record.Monsoon_Intensity }}</td>
+                            <td>{{ record.Cloud_Coverage }}%</td>
+                            <td>{{ record.Humidity }}%</td>
+                            <td>{{ record.Temperature }}</td>
+                            <td>{{ record.River_Discharge }}</td>
+                            <td class="fw-bold text-dark">{{ record.Probability }}</td>
+                            <td>
+                                {% if 'High' in record.Result %}
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2 rounded-pill">
+                                        <i class="fa-solid fa-triangle-exclamation me-1"></i> High Risk
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill">
+                                        <i class="fa-solid fa-circle-check me-1"></i> Low Risk
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <!-- Empty state illustration -->
+            <div class="text-center py-5">
+                <i class="fa-solid fa-database text-muted mb-3" style="font-size: 4rem;"></i>
+                <h5 class="fw-bold text-secondary">No Logged Predictions</h5>
+                <p class="text-muted small mx-auto mb-4" style="max-width: 400px;">
+                    Predictions will appear here automatically once you fill out the questionnaire and execute risk index runs.
+                </p>
+                <a href="{{ url_for('predict') }}" class="btn btn-primary-custom">
+                    <i class="fa-solid fa-plus-circle me-1"></i> Run Risk Prediction
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
