@@ -165,9 +165,12 @@ The classifier achieving the highest **F1-Score** (currently **XGBoost** with an
 
 | View | Screenshot |
 | :--- | :--- |
-| **Landing Hero Page** | ![Landing Page](8.Project%20Demonstration/screenshots/landing_page.png) |
-| **Prediction Questionnaire** | ![Predict Form](8.Project%20Demonstration/screenshots/predict_form.png) |
-| **Risk Analysis Result** | ![Prediction Results](8.Project%20Demonstration/screenshots/prediction_results.png) |
+| **Landing Hero Page** | ![Data Page](<img width="1920" height="1080" alt="dashboard" src="https://github.com/user-attachments/assets/537a5203-c107-47c1-a0e2-d94f39de14ff" />
+) |
+| **Prediction Questionnaire** | ![Predict Form](<img width="1920" height="1080" alt="prediction" src="https://github.com/user-attachments/assets/29ac2333-3f64-4a25-9d4e-112a4d0a27ca" />
+) |
+| **Risk Analysis Result** | ![Prediction Results](<img width="1920" height="1080" alt="risk_analysis" src="https://github.com/user-attachments/assets/27d3b0ae-efb3-4a2f-9ab3-dea0f11c51d1" />
+) |
 
 ---
 
@@ -181,14 +184,12 @@ The classifier achieving the highest **F1-Score** (currently **XGBoost** with an
 
 ## 👥 Team Members
 
-- **Moulika Kosetti** — Team Lead
 - **Ashraf Mohammad** — Member
-- **M S S V Kusuma Kumar** — Member
-- **Kuppala Manoj Sai Subhash** — Member
-- **Mummidi Ganga Venkata Satish** — Member
-
 ---
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](file:///c:/Users/satya/Downloads/flood_project/LICENSE) file for details.
+
+##  🔗 Link
+ 🔗  https://flood-risk-predictor-s3nj.onrender.com
