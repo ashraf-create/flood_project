@@ -1,10 +1,10 @@
 # Rising Waters: A Machine Learning Approach to Flood Prediction
 
-An intelligent, end-to-end flood prediction system leveraging historical meteorological and hydrological observations to assess flood risk. 
+An intelligent, end-to-end flood prediction system leveraging historical meteorological and hydrological observations to assess flood risk.
 
 ---
 
-## 📝 Abstract
+## 📌 Abstract
 
 Flooding is one of the most destructive natural disasters worldwide, causing extensive damage to infrastructure, loss of lives, and severe economic distress. Accurate and timely flood forecasting is critical for early warning systems and disaster management. 
 
@@ -12,7 +12,7 @@ This project implements an intelligent flood prediction system using classical a
 
 ---
 
-## ⚠️ Problem Statement
+## 🎯 Problem Statement
 
 Traditional flood prediction methods often rely purely on complex physical modeling of river basins, which requires intense computational resources and localized geological telemetry. These approaches often fail to provide:
 1. **Real-time Accessibility**: Allowing field officers, local administrators, and citizens to get instant risk evaluations.
@@ -31,13 +31,13 @@ Our solution addresses these gaps by building a web-accessible, machine learning
 - **Visual Analytics Dashboard**: Exports correlation heatmaps, class distributions, model comparison metrics, and confusion heatmaps directly to the interface.
 - **Persistent Prediction Logs**: Saves prediction transactions to a local CSV database, accessible via a responsive history table.
 - **Zero-Dependency PDF Exporter**: Instant, client-side A4 PDF report generator showing weather inputs and emergency steps.
-- **Robust Exception Handling**: Graceful warning pages when weights are missing and complete client/server form validation.
+- **Robust Exception Handling**: Graceful warning pages when weights are missing and complete client/server form validations.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend Logic**: Python 3.10, Flask
+- **Backend Framework**: Python 3.10, Flask
 - **Machine Learning**: Scikit-Learn, XGBoost, Joblib
 - **Data Engineering**: Pandas, Numpy
 - **Visualizations**: Matplotlib, Seaborn
@@ -46,7 +46,7 @@ Our solution addresses these gaps by building a web-accessible, machine learning
 
 ---
 
-## 📁 Repository Structure
+## 📁 Folder Structure
 
 ```
 flood_project/
@@ -64,19 +64,27 @@ flood_project/
 ├── dataset/
 │   └── flood.csv               # Historical Meteorological Dataset
 │
-├── models/
-│   ├── flood_model.pkl         # Best trained ML Model
-│   └── scaler.pkl              # Fitted StandardScaler
-│
 ├── docs/                       # Project Documentation Files
-│   ├── system_architecture.md  # System layout and flows
-│   ├── model_evaluation.md     # ML performance details
-│   └── user_guide.md           # Operational guide
+│   ├── Abstract.md             # Project abstract
+│   ├── Problem_Statement.md    # Problem statement
+│   ├── Features.md             # Application features
+│   ├── Tech_Stack.md           # Libraries and frameworks
+│   ├── Installation.md         # Environment setup instructions
+│   ├── Usage.md                # Execution manual
+│   ├── Future_Scope.md         # Planned advancements
+│   └── Team_Members.md         # Internship developers list
 │
-├── screenshots/                # Application mockups and visual guidelines
+├── screenshots/                # Application UI mockups
 │   ├── landing_page.png
 │   ├── predict_form.png
 │   └── prediction_results.png
+│
+├── models/
+│   ├── flood_model.pkl         # Best trained ML Model (Serialized)
+│   └── scaler.pkl              # Fitted StandardScaler (Serialized)
+│
+├── notebooks/
+│   └── FloodPrediction.ipynb   # Jupyter Notebook mirroring the analysis pipeline
 │
 ├── templates/                  # HTML Templates
 │   ├── base.html               # Global UI navbar & footer wrapper
@@ -129,7 +137,7 @@ Ensure the training dataset [dataset/flood.csv](file:///c:/Users/satya/Downloads
 ```bash
 python train_model.py
 ```
-This trains the classifiers, serializes the best one to `models/`, and generates figures for the Dashboard.
+This trains the classifiers, serializes the best one to `models/`, and generates evaluation plots.
 
 ### 2. Start the App
 Run the Flask server:
@@ -140,7 +148,19 @@ Open a browser and navigate to **[http://127.0.0.1:5000/](http://127.0.0.1:5000/
 
 ---
 
-## 📸 Screenshots
+## 🤖 Machine Learning Models Used
+
+During the training workflow, the pipeline automatically fits and compares four major classifiers on an 80/20 train/test split:
+- **Decision Tree Classifier**: Fast baseline model.
+- **Random Forest Classifier**: Robust ensemble bagging classifier.
+- **K-Nearest Neighbors (KNN)**: Distance-based localized estimator.
+- **XGBoost Classifier**: High-performance gradient boosting classifier.
+
+The classifier achieving the highest **F1-Score** (currently **XGBoost** with an F1-Score of **0.8892**) is automatically selected and serialized for production inference.
+
+---
+
+## 📸 Screenshots Section
 
 | View | Screenshot |
 | :--- | :--- |
@@ -152,7 +172,7 @@ Open a browser and navigate to **[http://127.0.0.1:5000/](http://127.0.0.1:5000/
 
 ## 🔮 Future Scope
 
-- **Real-Time API Integrations**: Integrate live weather web services (e.g., OpenWeatherMap API) to auto-fill current regional meteorological values.
+- **Live Meteorological APIs**: Integrate third-party weather forecast APIs (e.g., OpenWeatherMap API) to fetch live local values automatically.
 - **Geographical GIS mapping**: Integrate interactive maps (e.g., LeafletJS or Mapbox) showing flood zones and dynamic risk coordinates.
 - **SMS Warning Alerts**: Integrate Twilio API to send evacuation warning texts to residents in high-probability risk areas.
 
@@ -160,6 +180,14 @@ Open a browser and navigate to **[http://127.0.0.1:5000/](http://127.0.0.1:5000/
 
 ## 👥 Team Members
 
-- **Syed Ashraf** - Lead Developer & ML Engineer ([GitHub Profile](https://github.com/ashraf-create))
-- **[Intern Partner Name]** - Internship Coordinator / Co-Developer
-- **[University/Organization Name]** - Internship Submission (July 2026)
+- **Moulika Kosetti** — Team Lead
+- **Ashraf Mohammad** — Member
+- **M S S V Kusuma Kumar** — Member
+- **Kuppala Manoj Sai Subhash** — Member
+- **Mummidi Ganga Venkata Satish** — Member
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](file:///c:/Users/satya/Downloads/flood_project/LICENSE) file for details.
