@@ -48,60 +48,56 @@ Our solution addresses these gaps by building a web-accessible, machine learning
 
 ## 📁 Folder Structure
 
+Aligned to the reference internship submission template structure:
+
 ```
 flood_project/
 │
-├── app.py                      # Flask Server (Routes, history logs, error pages)
-├── train_model.py              # ML Training Pipeline (Preprocess, train, evaluate, plot)
-├── prediction.py               # ML Inference Wrapper (Load model, scale inputs, predict)
-├── requirements.txt            # Python Dependencies
-├── runtime.txt                 # Target Python Version
-├── Procfile                    # Web Process runner for Gunicorn
-├── LICENSE                     # MIT License terms
-├── .gitignore                  # Git untracked files
-├── README.md                   # Main Project Documentation
+├── LICENSE                      # MIT License copyrights
+├── README.md                    # Main Project README containing all requested sections
 │
-├── dataset/
-│   └── flood.csv               # Historical Meteorological Dataset
+├── 1. Brainstorming & Ideation/
+│   └── Brainstorming_and_Ideation.md # Project abstract, problem statement, objectives
 │
-├── docs/                       # Project Documentation Files
-│   ├── Abstract.md             # Project abstract
-│   ├── Problem_Statement.md    # Problem statement
-│   ├── Features.md             # Application features
-│   ├── Tech_Stack.md           # Libraries and frameworks
-│   ├── Installation.md         # Environment setup instructions
-│   ├── Usage.md                # Execution manual
-│   ├── Future_Scope.md         # Planned advancements
-│   └── Team_Members.md         # Internship developers list
+├── 2. Requirement Analysis/
+│   ├── Requirement_Analysis.md  # Software, hardware, functional/non-functional specs
+│   └── requirements.txt         # Back-up copy of python libraries manifest
 │
-├── screenshots/                # Application UI mockups
-│   ├── landing_page.png
-│   ├── predict_form.png
-│   └── prediction_results.png
+├── 3. Project Design Phase/
+│   └── Project_Design.md        # System architecture flowchart and design details
 │
-├── models/
-│   ├── flood_model.pkl         # Best trained ML Model (Serialized)
-│   └── scaler.pkl              # Fitted StandardScaler (Serialized)
+├── 4. Project Planning Phase/
+│   └── Project_Planning.md      # Milestones scheduling and developers work breakdown
 │
-├── notebooks/
-│   └── FloodPrediction.ipynb   # Jupyter Notebook mirroring the analysis pipeline
+├── 5. Project Development Phase/# Core Source Code Folder
+│   ├── app.py                   # Flask server entry point
+│   ├── train_model.py           # Preprocessing & ML training script
+│   ├── prediction.py            # Inference model scaling wrapper
+│   ├── requirements.txt         # Dependencies list
+│   ├── runtime.txt              # Target Python runtime
+│   ├── Procfile                 # Process deployment definition
+│   ├── dataset/
+│   │   └── flood.csv            # Historical dataset
+│   ├── models/
+│   │   ├── flood_model.pkl      # Best trained ML model weights
+│   │   └── scaler.pkl           # Fitted standard scaler weights
+│   ├── notebooks/
+│   │   └── FloodPrediction.ipynb# Prototyping Jupyter notebook
+│   ├── static/                  # Style sheets, JS scripting, and generated charts
+│   └── templates/               # HTML view files
 │
-├── templates/                  # HTML Templates
-│   ├── base.html               # Global UI navbar & footer wrapper
-│   ├── index.html              # Landing Page
-│   ├── predict.html            # Input Form
-│   ├── result.html             # High/Low risk card and actions
-│   ├── about.html              # Tech stack & Plot dashboard
-│   ├── contact.html            # Contact mock page
-│   ├── history.html            # CSV logged prediction logs
-│   ├── 404.html                # Not Found Error Page
-│   └── 500.html                # Server Error Page
+├── 6.Project Testing/
+│   └── Project_Testing.md       # Front-end, server error-handling, and model metrics
 │
-└── static/                     # Frontend Static Assets
-    ├── css/
-    │   └── style.css           # Custom styles (Dark ocean-blue theme)
-    └── js/
-        └── script.js           # Client-side validation & jsPDF generator
+├── 7.Project Documentation/
+│   └── Project_Documentation.md  # Complete deployment and installation manuals
+│
+└── 8.Project Demonstration/
+    ├── Project_Demonstration.md # Project demo URLs and presentation guide
+    └── screenshots/             # Mockup visual layouts
+        ├── landing_page.png
+        ├── predict_form.png
+        └── prediction_results.png
 ```
 
 ---
@@ -114,7 +110,12 @@ flood_project/
    cd flood_project
    ```
 
-2. **Initialize a Virtual Environment**:
+2. **Navigate to the Development Directory**:
+   ```bash
+   cd "5. Project Development Phase"
+   ```
+
+3. **Initialize a Virtual Environment**:
    ```bash
    python -m venv venv
    # On Windows:
@@ -123,7 +124,7 @@ flood_project/
    source venv/bin/activate
    ```
 
-3. **Install Dependencies**:
+4. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
@@ -133,7 +134,7 @@ flood_project/
 ## 💡 Usage Instructions
 
 ### 1. Train the Models
-Ensure the training dataset [dataset/flood.csv](file:///c:/Users/satya/Downloads/flood_project/dataset/flood.csv) is present, and run:
+Ensure the training dataset [flood.csv](file:///c:/Users/satya/Downloads/flood_project/5.%20Project%20Development%20Phase/dataset/flood.csv) is present inside the development folder, and run:
 ```bash
 python train_model.py
 ```
@@ -164,9 +165,9 @@ The classifier achieving the highest **F1-Score** (currently **XGBoost** with an
 
 | View | Screenshot |
 | :--- | :--- |
-| **Landing Hero Page** | ![Landing Page](screenshots/landing_page.png) |
-| **Prediction Questionnaire** | ![Predict Form](screenshots/predict_form.png) |
-| **Risk Analysis Result** | ![Prediction Results](screenshots/prediction_results.png) |
+| **Landing Hero Page** | ![Landing Page](8.Project%20Demonstration/screenshots/landing_page.png) |
+| **Prediction Questionnaire** | ![Predict Form](8.Project%20Demonstration/screenshots/predict_form.png) |
+| **Risk Analysis Result** | ![Prediction Results](8.Project%20Demonstration/screenshots/prediction_results.png) |
 
 ---
 
