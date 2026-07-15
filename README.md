@@ -184,7 +184,11 @@ The classifier achieving the highest **F1-Score** (currently **XGBoost** with an
 
 ## 👥 Team Members
 
-- **Ashraf Mohammad** — Member
+- **Ashraf Mohammad** — Team Member
+- **MS S V Kusuma Kumar** - Team Member
+- **Kuppala Manoj Sai Subhash** - Team Member
+- **Moulika Kosetti** - Team Lead
+- **Mummidi Ganga Venkata Satish** - Team Member
 ---
 
 ## 📄 License
